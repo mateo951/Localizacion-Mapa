@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10117" systemVersion="15E65" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Alignment constraints with different attributes" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
@@ -15,7 +16,7 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="fXg-By-Rn9">
@@ -54,15 +55,41 @@
                                     <action selector="segmentedControlAction:" destination="BYZ-38-t0r" eventType="valueChanged" id="Soq-lc-lk5"/>
                                 </connections>
                             </segmentedControl>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KRx-OM-J4E">
+                                <rect key="frame" x="-23" y="-15" width="46" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="79" id="1Az-gC-IMv"/>
+                                    <constraint firstAttribute="height" constant="37" id="KSn-ck-zTI"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <state key="normal" title="Reset"/>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="1Az-gC-IMv"/>
+                                        <exclude reference="KSn-ck-zTI"/>
+                                    </mask>
+                                </variation>
+                                <variation key="heightClass=regular-widthClass=compact">
+                                    <mask key="constraints">
+                                        <include reference="1Az-gC-IMv"/>
+                                        <include reference="KSn-ck-zTI"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <action selector="resetButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="HaN-qP-9pl"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="AS4-7J-Gmd" secondAttribute="bottom" constant="86" id="6gH-y3-53a">
                                 <variation key="heightClass=regular-widthClass=compact" constant="50"/>
                             </constraint>
+                            <constraint firstItem="KRx-OM-J4E" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F7B-HA-bU9"/>
                             <constraint firstAttribute="trailingMargin" secondItem="fXg-By-Rn9" secondAttribute="trailing" constant="-20" id="NW5-JN-BEz"/>
                             <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="fXg-By-Rn9" secondAttribute="bottom" id="bEg-CC-2ym"/>
                             <constraint firstItem="AS4-7J-Gmd" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="gUv-7Z-xcT"/>
+                            <constraint firstItem="wfy-db-euE" firstAttribute="top" secondItem="KRx-OM-J4E" secondAttribute="bottom" constant="8" id="gjB-KZ-ZGD"/>
                             <constraint firstItem="fXg-By-Rn9" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="topMargin" id="ovb-Nz-KaX"/>
                             <constraint firstItem="fXg-By-Rn9" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="-20" id="sz1-lX-9v0"/>
                         </constraints>
@@ -70,14 +97,17 @@
                             <mask key="subviews">
                                 <exclude reference="fXg-By-Rn9"/>
                                 <exclude reference="AS4-7J-Gmd"/>
+                                <exclude reference="KRx-OM-J4E"/>
                             </mask>
                             <mask key="constraints">
                                 <exclude reference="NW5-JN-BEz"/>
                                 <exclude reference="ovb-Nz-KaX"/>
                                 <exclude reference="sz1-lX-9v0"/>
                                 <exclude reference="gUv-7Z-xcT"/>
+                                <exclude reference="F7B-HA-bU9"/>
                                 <exclude reference="6gH-y3-53a"/>
                                 <exclude reference="bEg-CC-2ym"/>
+                                <exclude reference="gjB-KZ-ZGD"/>
                             </mask>
                         </variation>
                         <variation key="widthClass=compact">
@@ -87,13 +117,18 @@
                             </mask>
                         </variation>
                         <variation key="heightClass=regular-widthClass=compact">
+                            <mask key="subviews">
+                                <include reference="KRx-OM-J4E"/>
+                            </mask>
                             <mask key="constraints">
                                 <include reference="NW5-JN-BEz"/>
                                 <include reference="ovb-Nz-KaX"/>
                                 <include reference="sz1-lX-9v0"/>
                                 <include reference="gUv-7Z-xcT"/>
+                                <include reference="F7B-HA-bU9"/>
                                 <include reference="6gH-y3-53a"/>
                                 <include reference="bEg-CC-2ym"/>
+                                <include reference="gjB-KZ-ZGD"/>
                             </mask>
                         </variation>
                     </view>

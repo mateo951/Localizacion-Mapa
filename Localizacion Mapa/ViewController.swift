@@ -13,7 +13,13 @@ import CoreLocation
 class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
 
     @IBOutlet weak var mapa: MKMapView!
+    // Variables for getting location and covered distance
+    var loc = CLLocation()
+    var dist = 0.0
+    // CLLocationManager
+    let manejador = CLLocationManager()
     
+    //Map Types Selection
     @IBAction func segmentedControlAction(sender: UISegmentedControl!) {
         switch (sender.selectedSegmentIndex) {
         case 0:
@@ -24,8 +30,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
             self.mapa.mapType = .Satellite
         }
     }
-    
-    let manejador = CLLocationManager()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,7 +47,6 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         } else {
             // Fallback on earlier versions
         }
-        
     }
     
     // Autorizacion del usuario - iOS 8 or newr
@@ -52,45 +55,52 @@ class ViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDele
         if #available(iOS 8.0, *) {
             if status == .AuthorizedWhenInUse {
                 manejador.startUpdatingLocation()
+                mapa.showsUserLocation = true
             } else {
                 manejador.stopUpdatingLocation()
+                mapa.showsUserLocation = false
             }
         } else {
             // Fallback on earlier versions
         }
     }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
+        print("ERROR")
+    }
 
     func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
     
-        // Localizacion Usuario
+        print(manager.location!)
+        // Centrando el mapa en el usuario
         let location = locations.last
         let center = CLLocationCoordinate2D(latitude: location!.coordinate.latitude, longitude: location!.coordinate.longitude)
         let span = MKCoordinateSpan(latitudeDelta: 0.02, longitudeDelta: 0.02)
         let region = MKCoordinateRegion(center: center, span: span)
         mapa.setRegion(region, animated: true)
         
-        // Añadiendo pines
-        let coordinate = locations[0].coordinate
-        let annotation = MKPointAnnotation()
-        annotation.coordinate = coordinate
-        annotation.title = "\(coordinate.latitude) \(coordinate.longitude)"
-        let distanciaPrincipal = CLLocation(latitude: (locations.first?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
-        let distanciaActual = CLLocation(latitude: (locations.last?.coordinate.latitude)!, longitude: (locations.last?.coordinate.longitude)!)
-        //let distancia = CLLocation(latitude: (locations.last?.coordinate.latitude)!, longitude:(locations.last?.coordinate.longitude)!)
-        //let distanciaReccorida = distancia.distanceFromLocation(locations.first!)
-        annotation.subtitle = "\(distanciaPrincipal.distanceFromLocation(distanciaActual))"
-        mapa.addAnnotation(annotation)
+        if loc.coordinate.latitude == 0 {
+            loc = manager.location!
+        }else if loc.distanceFromLocation(manager.location!) > 50 {
+            dist = dist + 50.0
+            updatePositions(manager)
+        }
     }
     
-    func locationManager(manager: CLLocationManager, didFailWithError error: NSError) {
-        print("ERROR")
+    func updatePositions(manager: CLLocationManager) {
+        // Añadiendo pines
+        loc = manager.location!
+        let annottation = MKPointAnnotation()
+        annottation.coordinate = loc.coordinate
+        annottation.title = "Long: \(manager.location!.coordinate.longitude) - Lat: \(manager.location!.coordinate.latitude)"
+        annottation.subtitle = "Distancia: \(round(dist))"
+        mapa.addAnnotation(annottation)
     }
- 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func resetButton(sender: AnyObject) {
+        dist = 0.0
+        mapa.removeAnnotations(mapa.annotations)
     }
-
-
+    
 }
 
